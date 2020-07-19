@@ -1,4 +1,4 @@
-# Oscilloscope Sample
+# simple-oscilloscope
 
 A Simple Oscilloscope Application with JUCE 6.
 
