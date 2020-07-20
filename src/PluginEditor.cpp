@@ -162,7 +162,7 @@ void AudioPluginAudioProcessorEditor::timerCallback()
     AudioData *ad = nullptr;
     std::unique_lock<AudioData> lock;
 
-    // Processor の active_buffer_ を取得して、
+    // Processor の Active AudioData を取得してロックする。
     for( ; ; ) {
         ad = processorRef.getActiveAudioData();
         if(ad == nullptr) { return; }
@@ -173,7 +173,7 @@ void AudioPluginAudioProcessorEditor::timerCallback()
         if(lock) { break; }
 
         // ロックが取得できなかったということは、この AudioData が processor_ 側で使用中ということ。
-        // （ロック処理には juce::SpinLock を使用していて、このクラスは Spurious Failure が発生しないはず）
+        // （ロック処理には juce::SpinLock クラスを使用していて、このクラスは Spurious Failure が発生しないはず）
         // 一度スレッドのタイムスライスを明け渡してからリトライする。
         std::this_thread::yield();
     }
