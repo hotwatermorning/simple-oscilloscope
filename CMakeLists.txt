@@ -75,6 +75,7 @@ target_sources(${TARGET_NAME} PRIVATE
     src/PluginEditor.h
     src/PluginProcessor.cpp
     src/PluginProcessor.h
+    src/RingBuffer.h
     )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
