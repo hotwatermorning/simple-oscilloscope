@@ -8,7 +8,11 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 cmake_minimum_required(VERSION 3.15)
+
+include("${CMAKE_CURRENT_SOURCE_DIR}/Version.cmake")
 
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
@@ -40,7 +44,7 @@ add_subdirectory(ext/juce)                    # If you've put JUCE in a subdirec
 set(TARGET_NAME "SimpleOscilloscope")
 
 juce_add_plugin(${TARGET_NAME}
-    VERSION 0.0.1                               # Set this if the plugin version is different to the project version
+    VERSION ${APP_VERSION}                               # Set this if the plugin version is different to the project version
     # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
     # ICON_SMALL ...
     COMPANY_NAME "diatonic.jp"                          # Specify the name of the plugin's author
