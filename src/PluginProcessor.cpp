@@ -103,21 +103,18 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     // initialisation that you need..
     juce::ignoreUnused (sampleRate);
 
-    std::unique_lock<AudioData> lock;
-    if(auto p = active_audio_data_.load()) {
-        lock = std::unique_lock<AudioData>(*p);
-    }
-
     auto buffer = RingBuffer<float>(2, (int)std::round(sampleRate));
 
-    datas_[0].getPreBuffer() = buffer;
-    datas_[0].getPostBuffer() = buffer;
-    datas_[1].getPreBuffer() = buffer;
-    datas_[1].getPostBuffer() = buffer;
+    auto reset_buffer = [](AudioData &data, RingBuffer<float> const &new_buffer) {
+        std::unique_lock<AudioData> lock(data);
+        data.getPreBuffer() = new_buffer;
+        data.getPostBuffer() = new_buffer;
+    };
 
-    if(lock.owns_lock() == false) {
-        active_audio_data_.store(&datas_[0]);
-    }
+    reset_buffer(datas_[0], buffer);
+    reset_buffer(datas_[1], buffer);
+
+    active_audio_data_.store(&datas_[0]);
 
     tmp_buf_ = juce::AudioSampleBuffer(2, samplesPerBlock);
     tmp_buf_.clear();
