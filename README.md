@@ -12,6 +12,6 @@ cd simple-oscilloscope
 git submodule update --init --recursive
 mkdir build
 cd build
-cmake -GXcode ..
+cmake -GXcode .. # or `cmake -G "Visual Studio 16 2019" ..` for Win.
 cmake --build . --config Release
 ```
